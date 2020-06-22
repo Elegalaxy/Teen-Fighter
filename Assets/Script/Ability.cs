@@ -14,6 +14,7 @@ public class Ability : MonoBehaviour
     public GameObject bookSound;
     public bookPrefab booksDamage;
     public CdBar cdBar;
+    public bool isRole = false;
 
     private void Start()
     {
@@ -83,7 +84,15 @@ public class Ability : MonoBehaviour
         }
         else if (index == 2)
         {
+            if(duration <= 0)
+            {
+                isRole = false;
+            }
 
+            if (!isRole)
+            {
+
+            }
         }
         else if (index == 3)
         {
@@ -169,7 +178,16 @@ public class Ability : MonoBehaviour
         }
         else if (charInd == 2)
         {
-
+            if (isRole)
+            {
+                isRole = false;
+            }
+            else
+            {
+                isRole = true;
+                changeTime(15f, 7f);
+                changeStat(1f, 1.6f, 0.6f);
+            }
         }
         else if (charInd == 3)
         {
