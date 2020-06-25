@@ -26,6 +26,8 @@ public class Weapon : MonoBehaviour
     public GameObject[] Sounds;
     public int soundIndex;
 
+    public bool atkEnable = true;
+
     /*
     public int weaponChange = 5; //admin script
     public int weaponChange2 = 4; //admin script
@@ -89,14 +91,14 @@ public class Weapon : MonoBehaviour
         }*/
 
 
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && atkEnable == true)
         {
             if(gameObject.GetComponent<PlayerController>().playerIndex == 1)
             {
                 Shoot();
             }
         }
-        if (Input.GetButton("Fire2"))
+        if (Input.GetButton("Fire2") && atkEnable == true)
         {
             if (gameObject.GetComponent<PlayerController>().playerIndex == 2)
             {

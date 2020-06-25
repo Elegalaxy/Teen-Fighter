@@ -2738,6 +2738,7 @@ MonoBehaviour:
   - {fileID: 7672271574487207771, guid: 7c96a35ce15834a43a2a6fbaf544c5f3, type: 3}
   - {fileID: 2640806417451105419, guid: e36307dc85b037b4696413941a478dbc, type: 3}
   soundIndex: 0
+  atkEnable: 1
   weaponCh: 0
   ammo: 0
   playerInd: 0
@@ -2794,6 +2795,7 @@ MonoBehaviour:
   booksDamage: {fileID: 407399348}
   cdBar: {fileID: 23582963}
   isRole: 0
+  animator: {fileID: 407399340}
 --- !u!114 &407399348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9961,6 +9963,7 @@ MonoBehaviour:
   - {fileID: 7672271574487207771, guid: 7c96a35ce15834a43a2a6fbaf544c5f3, type: 3}
   - {fileID: 2640806417451105419, guid: e36307dc85b037b4696413941a478dbc, type: 3}
   soundIndex: 0
+  atkEnable: 1
   weaponCh: 0
   ammo: 0
   playerInd: 0
@@ -10017,6 +10020,7 @@ MonoBehaviour:
   booksDamage: {fileID: 1942814364}
   cdBar: {fileID: 151920635}
   isRole: 0
+  animator: {fileID: 1942814353}
 --- !u!114 &1942814364
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ public class Ability : MonoBehaviour
     public bookPrefab booksDamage;
     public CdBar cdBar;
     public bool isRole = false;
+    public Animator animator;
 
     private void Start()
     {
@@ -87,11 +88,8 @@ public class Ability : MonoBehaviour
             if(duration <= 0)
             {
                 isRole = false;
-            }
-
-            if (!isRole)
-            {
-
+                animator.SetBool("isRole", false);
+                changeStat(1, 1, 1);
             }
         }
         else if (index == 3)
@@ -99,6 +97,7 @@ public class Ability : MonoBehaviour
             if(duration <= 0)
             {
                 poison.isPoisoned = false;
+                gameObject.GetComponent<Weapon>().atkEnable = true;
             }
         }
         else if (index == 4)
@@ -181,10 +180,13 @@ public class Ability : MonoBehaviour
             if (isRole)
             {
                 isRole = false;
+                animator.SetBool("isRole", false);
             }
             else
             {
                 isRole = true;
+                animator.SetBool("isRole", true);
+                gameObject.GetComponent<Weapon>().atkEnable = false;
                 changeTime(15f, 7f);
                 changeStat(1f, 1.6f, 0.6f);
             }

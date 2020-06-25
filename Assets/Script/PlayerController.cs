@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         healthBar.GetComponent<HealthBar>().SetHealthBar();
     }
 
-    void Update()
+    private void Update()
     {
         if (poison.isChaos && charsIndex.charsSelectedIndex != 6 && playerIndex == 1)
         {
@@ -46,6 +46,10 @@ public class PlayerController : MonoBehaviour
         Debug.Log(runAmplifier);
 
         Jump(); //detect jump and climb
+    }
+
+    void FixedUpdate()
+    {
         if (playerIndex == 1 && gameObject.GetComponent<Ability>().unableMove == false)
         {
             horizontalMove = Input.GetAxisRaw("Horizontal");
