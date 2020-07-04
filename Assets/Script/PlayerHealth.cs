@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviour
     bool healTrigger = false;
     float healC, timeC, durationC;
     float poisonTime;
-    float poiDmg;
+    float poiDmg = 0;
     private void Update()
     {
         if(durationC > 0)
@@ -33,7 +33,9 @@ public class PlayerHealth : MonoBehaviour
         if (poisonTime > 0)
         {
             poisonTime -= Time.deltaTime;
-            takeDamage(poiDmg * Time.deltaTime);
+            Debug.Log(poisonTime);
+            Health -= poiDmg * Def * Time.deltaTime;
+            healthBar.GetComponent<HealthBar>().SetHealthBar();
         }
         else
         {
@@ -90,7 +92,7 @@ public class PlayerHealth : MonoBehaviour
     public void poisonApply(float slow, float dmg, float time)
     {
         poisonTime = time;
-        gameObject.GetComponent<PlayerController>().runAmplifier = slow;
+        gameObject.GetComponent<PlayerController>().runAmplifier *= slow;
         poiDmg = dmg;
     }
 }

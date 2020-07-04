@@ -62,11 +62,11 @@ public class Ability : MonoBehaviour
             }
             if (chargeDuration > 0)
             {
-                if(chargeDuration <= 0.5)
+                if (chargeDuration <= 0.5)
                 {
                     damage = 20;
                 }
-                else if(chargeDuration > 0.5 && chargeDuration <= 1)
+                else if (chargeDuration > 0.5 && chargeDuration <= 1)
                 {
                     damage = 40;
                 }
@@ -85,24 +85,24 @@ public class Ability : MonoBehaviour
         }
         else if (index == 2)
         {
-            if(duration <= 0)
+            if (duration <= 0)
             {
                 isRole = false;
                 animator.SetBool("isRole", false);
+                gameObject.GetComponent<Weapon>().atkEnable = true;
                 changeStat(1, 1, 1);
             }
         }
         else if (index == 3)
         {
-            if(duration <= 0)
+            if (duration <= 0)
             {
                 poison.isPoisoned = false;
-                gameObject.GetComponent<Weapon>().atkEnable = true;
             }
         }
         else if (index == 4)
         {
-            if(duration <= 0)
+            if (duration <= 0)
             {
                 changeStat(1, 1, 1);
             }
@@ -146,7 +146,7 @@ public class Ability : MonoBehaviour
     public void ability(int charInd)
     {
         index = charInd;
-        if (charInd == 0)
+        if (charInd == 0 && cd <= 0)
         {
             PlayerHealth health = gameObject.GetComponent<PlayerHealth>();
             if (abilityStart == true)
@@ -175,12 +175,15 @@ public class Ability : MonoBehaviour
             changeTime(15f, 1.5f);
             charging = true;
         }
-        else if (charInd == 2)
+        else if (charInd == 2 && cd <= 0)
         {
             if (isRole)
             {
                 isRole = false;
                 animator.SetBool("isRole", false);
+                changeStat(1f, 1f, 1f);
+                gameObject.GetComponent<Weapon>().atkEnable = true;
+                duration = 0;
             }
             else
             {
@@ -191,43 +194,43 @@ public class Ability : MonoBehaviour
                 changeStat(1f, 1.6f, 0.6f);
             }
         }
-        else if (charInd == 3)
+        else if (charInd == 3 && cd <= 0)
         {
             poison.isPoisoned = true;
             changeTime(15f, 5f);
         }
-        else if (charInd == 4)
+        else if (charInd == 4 && cd <= 0)
         {
             changeTime(15f, 5f);
             changeStat(1.3f, 0.7f, 0.6f);
         }
-        else if (charInd == 5)
+        else if (charInd == 5 && cd <= 0)
         {
             changeTime(15f, 5f);
             changeStat(1.4f, 1.6f, 1.4f);
         }
-        else if (charInd == 6)
+        else if (charInd == 6 && cd <= 0)
         {
             changeTime(15f, 6f);
             poison.isChaos = true;
         }
-        else if (charInd == 7)
+        else if (charInd == 7 && cd <= 0)
         {
 
         }
-        else if (charInd == 8)
+        else if (charInd == 8 && cd <= 0)
         {
 
         }
-        else if (charInd == 9)
+        else if (charInd == 9 && cd <= 0)
         {
 
         }
-        else if (charInd == 10)
+        else if (charInd == 10 && cd <= 0)
         {
 
         }
-        else if (charInd == 11)
+        else if (charInd == 11 && cd <= 0)
         {
 
         }
@@ -241,7 +244,7 @@ public class Ability : MonoBehaviour
     void bookExplode(float damage)
     {
         booksDamage.setBookDamage(damage);
-        foreach(GameObject i in books)
+        foreach (GameObject i in books)
         {
             Instantiate(booksPrefab, i.GetComponent<Transform>().position, i.GetComponent<Transform>().rotation);
         }
@@ -257,7 +260,7 @@ public class Ability : MonoBehaviour
     public void changeStat(float dmg, float speed, float atkAmplifier)
     {
         poison.dmgAmplify *= dmg;
-        if(duration > 0)
+        if (duration > 0)
         {
             gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
         }
@@ -267,5 +270,19 @@ public class Ability : MonoBehaviour
 
         }
         gameObject.GetComponent<PlayerHealth>().Def *= atkAmplifier;
+    }
+
+    private void OnTriggerEnter2D(Collider2D hitInfo)
+    {
+        if (isRole == true && index == 2)
+        {
+            PlayerHealth enemy = hitInfo.GetComponent<PlayerHealth>();
+            Rigidbody2D rb = hitInfo.GetComponent<Rigidbody2D>();
+            if (enemy != null && rb != null)
+            {
+                enemy.takeDamage(5);
+                rb.velocity = (-transform.right + transform.up) * 10;
+            }
+        }
     }
 }

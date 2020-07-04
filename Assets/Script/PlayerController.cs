@@ -41,10 +41,6 @@ public class PlayerController : MonoBehaviour
         {
             runAmplifier *= 0.8f;
         }
-
-        runAmplifier *= runAmp;
-        Debug.Log(runAmplifier);
-
         Jump(); //detect jump and climb
     }
 
@@ -92,6 +88,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         animator.SetBool("IsWalking", isWalking);
+        runAmplifier *= runAmp;
 
         if (playerIndex == 1 && gameObject.GetComponent<Ability>().unableMove == false)
         {
