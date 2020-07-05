@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float Health = 100;
     public float maxHealth = 100;
+    public float Health;
     public GameObject deathEffect;
     public Animator animator;
     public GameObject healthBar;
     public float Def = 1;
-    bool healTrigger = false;
     float healC, timeC, durationC;
     float poisonTime;
     float poiDmg = 0;
+
+    private void Start()
+    {
+        Def = 1;
+        Health = maxHealth;
+        poisonTime = 0;
+        poiDmg = 0;
+    }
+
     private void Update()
     {
         if(durationC > 0)

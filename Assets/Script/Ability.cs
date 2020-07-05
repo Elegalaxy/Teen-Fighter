@@ -20,6 +20,9 @@ public class Ability : MonoBehaviour
     private void Start()
     {
         poison.isPoisoned = false;
+        cd = 0;
+        duration = 0;
+
     }
     private void Update()
     {

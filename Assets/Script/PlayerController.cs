@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     public float runAmplifier = 1f;
     float climbSpeed = 4f;
     float jumpForce = 2f;
-    bool runEnable = false;
     float runAmp = 1f;
 
     public int playerIndex = 1;
@@ -224,12 +223,10 @@ public class PlayerController : MonoBehaviour
         if (enable)
         {
             runAmp *= speed;
-            runEnable = true;
         }
         else
         {
             runAmp = 1;
-            runEnable = false;
         }
     }
 }
