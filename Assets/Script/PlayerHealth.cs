@@ -9,10 +9,11 @@ public class PlayerHealth : MonoBehaviour
     public GameObject deathEffect;
     public Animator animator;
     public GameObject healthBar;
-    public float Def = 1;
+    public float Def;
     float healC, timeC, durationC;
     float poisonTime;
     float poiDmg = 0;
+    float defHandler = 1;
 
     private void Start()
     {
@@ -54,12 +55,14 @@ public class PlayerHealth : MonoBehaviour
         {
             if ((charsIndex.charsSelectedIndex != 6 && gameObject.GetComponent<PlayerController>().playerIndex == 1) || (charsIndex.charsSelectedIndex2 != 6 && gameObject.GetComponent<PlayerController>().playerIndex == 2))
             {
-                Def *= 2f;
+                defHandler = 1.3f;
             }
         }
     }
+
     public void takeDamage(float damage)
     {
+        Def *= defHandler;
         Health -= damage * Def;
 
         if (poison.isPoisoned == true)

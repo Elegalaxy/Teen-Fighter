@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameObject spawnPoint;
     public GameObject healthBar;
+    float runAmpHandler = 1f;
 
     private void Start()
     {
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         animator.SetBool("IsWalking", isWalking);
+        runAmplifier *= runAmpHandler;
 
         if (playerIndex == 1 && gameObject.GetComponent<Ability>().unableMove == false)
         {
@@ -94,7 +96,7 @@ public class PlayerController : MonoBehaviour
         {
             if ((charsIndex.charsSelectedIndex != 6 && playerIndex == 1) || (charsIndex.charsSelectedIndex2 != 6 && playerIndex == 2))
             {
-                runAmplifier *= 0.1f;
+                runAmpHandler = 0.8f;
             }
         }
     }
