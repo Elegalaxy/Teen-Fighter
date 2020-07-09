@@ -7,7 +7,7 @@ public class Ability : MonoBehaviour
     public bool unableMove = false;
     public int index;
     public float cd = 0, duration = 0, chargeDuration = 0, damage = 0;
-    bool abilityStart = false, charging = false;
+    bool charging = false;
     public GameObject[] books;
     public GameObject booksPrefab;
     public int pointInd;
@@ -46,13 +46,15 @@ public class Ability : MonoBehaviour
             if (duration > 0)
             {
                 unableMove = true;
+                gameObject.GetComponent<Weapon>().atkEnable = false;
             }
             else if (duration <= 0)
             {
+                animator.SetBool("Ability", false);
                 unableMove = false;
+                gameObject.GetComponent<Weapon>().atkEnable = true;
                 gameObject.GetComponent<PlayerHealth>().Def = 1;
                 gameObject.GetComponent<PlayerHealth>().Regen(0f);
-                abilityStart = false;
             }
         }
         else if (index == 1)
@@ -91,7 +93,7 @@ public class Ability : MonoBehaviour
             if (duration <= 0)
             {
                 isRole = false;
-                animator.SetBool("isRole", false);
+                animator.SetBool("Ability", false);
                 gameObject.GetComponent<Weapon>().atkEnable = true;
                 changeStat(1, 1, 1);
             }
@@ -152,17 +154,17 @@ public class Ability : MonoBehaviour
         if (charInd == 0 && cd <= 0)
         {
             PlayerHealth health = gameObject.GetComponent<PlayerHealth>();
-            if (abilityStart == true)
+            if (duration != 0)
             {
                 duration = 0;
             }
             if (cd <= 0 && health.Health != health.maxHealth)
             {
+                animator.SetBool("Ability", true);
                 changeTime(20f, 9f);
                 index = charInd;
                 gameObject.GetComponent<PlayerHealth>().Def *= 0.2f;
                 gameObject.GetComponent<PlayerHealth>().Regen(15, 1.5f, duration);
-                abilityStart = true;
             }
         }
         else if (charInd == 1 && cd <= 0)
@@ -183,7 +185,7 @@ public class Ability : MonoBehaviour
             if (isRole)
             {
                 isRole = false;
-                animator.SetBool("isRole", false);
+                animator.SetBool("Ability", false);
                 changeStat(1f, 1f, 1f);
                 gameObject.GetComponent<Weapon>().atkEnable = true;
                 duration = 0;
@@ -191,7 +193,7 @@ public class Ability : MonoBehaviour
             else
             {
                 isRole = true;
-                animator.SetBool("isRole", true);
+                animator.SetBool("Ability", true);
                 gameObject.GetComponent<Weapon>().atkEnable = false;
                 changeTime(15f, 7f);
                 changeStat(1f, 1.6f, 0.6f);

@@ -24,7 +24,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        if(durationC > 0)
+        if (durationC > 0)
         {
             if (Health >= maxHealth)
             {
@@ -48,6 +48,14 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             gameObject.GetComponent<PlayerController>().runAmplifier = 1;
+        }
+
+        if (poison.isChaos)
+        {
+            if ((charsIndex.charsSelectedIndex != 6 && gameObject.GetComponent<PlayerController>().playerIndex == 1) || (charsIndex.charsSelectedIndex2 != 6 && gameObject.GetComponent<PlayerController>().playerIndex == 2))
+            {
+                Def *= 2f;
+            }
         }
     }
     public void takeDamage(float damage)

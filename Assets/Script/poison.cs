@@ -6,10 +6,10 @@ using UnityEngine;
 public class poison : MonoBehaviour
 {
     //this script is for storing ability stat change
-    public static bool isPoisoned;
-    public static bool isChaos;
+    public static bool isPoisoned = false;
+    public static bool isChaos = false;
 
-    public static float dmgAmplify;
+    public static float dmgAmplify = 1;
     private void Start()
     {
         isPoisoned = false;

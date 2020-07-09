@@ -2690,8 +2690,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5042fb76102bbfb478dfd90c8e07a72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
   maxHealth: 100
+  Health: 100
   deathEffect: {fileID: 0}
   animator: {fileID: 407399340}
   healthBar: {fileID: 1894910056}
@@ -9915,8 +9915,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5042fb76102bbfb478dfd90c8e07a72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
   maxHealth: 100
+  Health: 100
   deathEffect: {fileID: 0}
   animator: {fileID: 1942814353}
   healthBar: {fileID: 1987779194}
