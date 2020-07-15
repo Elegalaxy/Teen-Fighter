@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class Ability : MonoBehaviour
 {
+    public Animator animator;
     public bool unableMove = false;
     public int index;
     public float cd = 0, duration = 0, chargeDuration = 0, damage = 0;
-    bool charging = false;
+
+    public int pointInd;
     public GameObject[] books;
     public GameObject booksPrefab;
-    public int pointInd;
     public GameObject bookSound;
     public bookPrefab booksDamage;
     public CdBar cdBar;
+    public GameObject weapon;
+    
     public bool isRole = false;
-    public Animator animator;
+    public bool bleed = false;
+
+    bool charging = false;
+    bool statChecker = false;
 
     private void Start()
     {
         poison.isPoisoned = false;
+        poison.isChaos = false;
+        poison.dmgAmplify = 1;
+
         cd = 0;
         duration = 0;
 
@@ -47,12 +56,14 @@ public class Ability : MonoBehaviour
             {
                 unableMove = true;
                 gameObject.GetComponent<Weapon>().atkEnable = false;
+                weapon.SetActive(false);
             }
             else if (duration <= 0)
             {
                 animator.SetBool("Ability", false);
                 unableMove = false;
                 gameObject.GetComponent<Weapon>().atkEnable = true;
+                weapon.SetActive(true);
                 gameObject.GetComponent<PlayerHealth>().Def = 1;
                 gameObject.GetComponent<PlayerHealth>().Regen(0f);
             }
@@ -90,12 +101,13 @@ public class Ability : MonoBehaviour
         }
         else if (index == 2)
         {
-            if (duration <= 0)
+            if (duration <= 0 && statChecker)
             {
                 isRole = false;
                 animator.SetBool("Ability", false);
                 gameObject.GetComponent<Weapon>().atkEnable = true;
-                changeStat(1, 1, 1);
+                weapon.SetActive(true);
+                changeStat(1f, 1.6f, 0.6f, true);
             }
         }
         else if (index == 3)
@@ -107,16 +119,16 @@ public class Ability : MonoBehaviour
         }
         else if (index == 4)
         {
-            if (duration <= 0)
+            if (duration <= 0 && statChecker)
             {
-                changeStat(1, 1, 1);
+                changeStat(1.3f, 0.7f, 0.6f, true);
             }
         }
         else if (index == 5)
         {
-            if (duration <= 0)
+            if (duration <= 0 && statChecker)
             {
-                changeStat(1, 1, 1);
+                changeStat(1.4f, 1.6f, 1.4f, true);
             }
         }
         else if (index == 6)
@@ -132,7 +144,10 @@ public class Ability : MonoBehaviour
         }
         else if (index == 8)
         {
-
+            if (duration <= 0 && statChecker)
+            {
+                changeStat(1f, 1f, 0.01f, true);
+            }
         }
         else if (index == 9)
         {
@@ -140,7 +155,10 @@ public class Ability : MonoBehaviour
         }
         else if (index == 10)
         {
-
+            if (duration <= 0 && statChecker)
+            {
+                changeStat(1.3f, 1.3f, 1f, true);
+            }
         }
         else if (index == 11)
         {
@@ -151,20 +169,24 @@ public class Ability : MonoBehaviour
     public void ability(int charInd)
     {
         index = charInd;
-        if (charInd == 0 && cd <= 0)
+        if (charInd == 0)
         {
-            PlayerHealth health = gameObject.GetComponent<PlayerHealth>();
             if (duration != 0)
             {
                 duration = 0;
             }
-            if (cd <= 0 && health.Health != health.maxHealth)
+
+            if (cd <= 0)
             {
-                animator.SetBool("Ability", true);
-                changeTime(20f, 9f);
-                index = charInd;
-                gameObject.GetComponent<PlayerHealth>().Def *= 0.2f;
-                gameObject.GetComponent<PlayerHealth>().Regen(15, 1.5f, duration);
+                PlayerHealth health = gameObject.GetComponent<PlayerHealth>();
+                if (health.Health != health.maxHealth)
+                {
+                    animator.SetBool("Ability", true);
+                    changeTime(20f, 9f);
+                    index = charInd;
+                    gameObject.GetComponent<PlayerHealth>().Def *= 0.2f;
+                    gameObject.GetComponent<PlayerHealth>().Regen(15, 1.5f, duration, false);
+                }
             }
         }
         else if (charInd == 1 && cd <= 0)
@@ -186,8 +208,9 @@ public class Ability : MonoBehaviour
             {
                 isRole = false;
                 animator.SetBool("Ability", false);
-                changeStat(1f, 1f, 1f);
+                changeStat(1f, 1.6f, 0.6f, true);
                 gameObject.GetComponent<Weapon>().atkEnable = true;
+                weapon.SetActive(true);
                 duration = 0;
             }
             else
@@ -195,8 +218,9 @@ public class Ability : MonoBehaviour
                 isRole = true;
                 animator.SetBool("Ability", true);
                 gameObject.GetComponent<Weapon>().atkEnable = false;
+                weapon.SetActive(false);
                 changeTime(15f, 7f);
-                changeStat(1f, 1.6f, 0.6f);
+                changeStat(1f, 1.6f, 0.6f, false);
             }
         }
         else if (charInd == 3 && cd <= 0)
@@ -207,12 +231,12 @@ public class Ability : MonoBehaviour
         else if (charInd == 4 && cd <= 0)
         {
             changeTime(15f, 5f);
-            changeStat(1.3f, 0.7f, 0.6f);
+            changeStat(1.3f, 0.7f, 0.6f, false);
         }
         else if (charInd == 5 && cd <= 0)
         {
             changeTime(15f, 5f);
-            changeStat(1.4f, 1.6f, 1.4f);
+            changeStat(1.4f, 1.6f, 1.4f, false);
         }
         else if (charInd == 6 && cd <= 0)
         {
@@ -221,23 +245,26 @@ public class Ability : MonoBehaviour
         }
         else if (charInd == 7 && cd <= 0)
         {
-
+            changeTime(15f, 7f);
         }
         else if (charInd == 8 && cd <= 0)
         {
-
+            changeTime(15f, 3f);
+            changeStat(1f, 1f, 0.01f, false);
         }
         else if (charInd == 9 && cd <= 0)
         {
-
+            changeTime(15f, 8f);
         }
         else if (charInd == 10 && cd <= 0)
         {
-
+            changeTime(15f, 5f);
+            changeStat(1.3f, 1.3f, 1f, false);
+            gameObject.GetComponent<PlayerHealth>().Regen(30, 0f, 0f, true);
         }
         else if (charInd == 11 && cd <= 0)
         {
-
+            changeTime(15f, 0f);
         }
 
         if (cdBar.maxSlider == 100f)
@@ -262,19 +289,38 @@ public class Ability : MonoBehaviour
         duration = chDuration;
     }
 
-    public void changeStat(float dmg, float speed, float atkAmplifier)
+    public void changeStat(float dmg, float speed, float atkAmplifier, bool reset)
     {
-        poison.dmgAmplify *= dmg;
-        if (duration > 0)
+        if (reset)
         {
-            gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
+            poison.dmgAmplify /= dmg;
+            if (duration > 0)
+            {
+                gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
+            }
+            else
+            {
+                gameObject.GetComponent<PlayerController>().changeSpeed(speed, false);
+
+            }
+            gameObject.GetComponent<PlayerHealth>().Def /= atkAmplifier;
+            statChecker = false;
         }
         else
         {
-            gameObject.GetComponent<PlayerController>().changeSpeed(speed, false);
+            poison.dmgAmplify *= dmg;
+            if (duration > 0)
+            {
+                gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
+            }
+            else
+            {
+                gameObject.GetComponent<PlayerController>().changeSpeed(speed, false);
 
+            }
+            gameObject.GetComponent<PlayerHealth>().Def *= atkAmplifier;
+            statChecker = true;
         }
-        gameObject.GetComponent<PlayerHealth>().Def *= atkAmplifier;
     }
 
     private void OnTriggerEnter2D(Collider2D hitInfo)

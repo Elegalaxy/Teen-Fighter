@@ -10,10 +10,4 @@ public class poison : MonoBehaviour
     public static bool isChaos = false;
 
     public static float dmgAmplify = 1;
-    private void Start()
-    {
-        isPoisoned = false;
-        isChaos = false;
-        dmgAmplify = 1;
-    }
 }

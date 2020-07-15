@@ -11,7 +11,6 @@ public class books : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(bookPrefab.bookInd);
         bookDamage = bookPrefab.damage;
         if (bookPrefab.bookInd == 0)
         {

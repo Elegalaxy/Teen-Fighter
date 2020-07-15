@@ -13,7 +13,7 @@ public class MapMenu : MonoBehaviour
     public void Play()
     {
         mapInd.setMapInd(lvlIndex);
-        Debug.Log(lvlIndex);
+        //Debug.Log(lvlIndex);
         SceneManager.LoadScene(lvlIndex); //load next scene
     }
 

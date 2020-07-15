@@ -12,8 +12,8 @@ public class PlayerHealth : MonoBehaviour
     public float Def;
     float healC, timeC, durationC;
     float poisonTime;
-    float poiDmg = 0;
-    float defHandler = 1;
+    float poiDmg;
+    float defHandler;
 
     private void Start()
     {
@@ -21,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
         Health = maxHealth;
         poisonTime = 0;
         poiDmg = 0;
+        defHandler = 1;
     }
 
     private void Update()
@@ -38,11 +39,10 @@ public class PlayerHealth : MonoBehaviour
                 healthBar.GetComponent<HealthBar>().SetHealthBar();
             }
         }
-
+        //Debug.Log(poisonTime);
         if (poisonTime > 0)
         {
             poisonTime -= Time.deltaTime;
-            Debug.Log(poisonTime);
             Health -= poiDmg * Def * Time.deltaTime;
             healthBar.GetComponent<HealthBar>().SetHealthBar();
         }
@@ -67,7 +67,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (poison.isPoisoned == true)
         {
-            if((gameObject.GetComponent<PlayerController>().playerIndex == 1 && charsIndex.charsSelectedIndex != 3)
+            if ((gameObject.GetComponent<PlayerController>().playerIndex == 1 && charsIndex.charsSelectedIndex != 3)
                 || gameObject.GetComponent<PlayerController>().playerIndex == 2 && charsIndex.charsSelectedIndex2 != 3)
             {
                 poisonApply(0.8f, 5f, 3f);
@@ -96,11 +96,25 @@ public class PlayerHealth : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Regen(int heal, float time, float duration)
+    public void Regen(int heal, float time, float duration, bool instant)
     {
-        durationC = duration;
-        healC = heal;
-        timeC = time;
+        if (!instant)
+        {
+            durationC = duration;
+            healC = heal;
+            timeC = time;
+        }else if (instant)
+        {
+            if((Health + heal) <= maxHealth)
+            {
+                Health += heal;
+            }
+            else
+            {
+                Health += (maxHealth - Health);
+            }
+            healthBar.GetComponent<HealthBar>().SetHealthBar();
+        }
     }
 
     public void Regen(float duration)
@@ -110,8 +124,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void poisonApply(float slow, float dmg, float time)
     {
-        poisonTime = time;
         gameObject.GetComponent<PlayerController>().runAmplifier *= slow;
         poiDmg = dmg;
+        poisonTime = time;
     }
 }
