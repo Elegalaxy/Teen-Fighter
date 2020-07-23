@@ -48,7 +48,11 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<PlayerController>().runAmplifier = 1;
+            if (gameObject.GetComponent<PlayerController>() != null)
+            {
+                gameObject.GetComponent<PlayerController>().runAmplifier = 1;
+
+            }
         }
 
         if (poison.isChaos)
@@ -65,7 +69,7 @@ public class PlayerHealth : MonoBehaviour
         Def *= defHandler;
         Health -= damage * Def;
 
-        if (poison.isPoisoned == true)
+        if (poison.isPoisoned)
         {
             if ((gameObject.GetComponent<PlayerController>().playerIndex == 1 && charsIndex.charsSelectedIndex != 3)
                 || gameObject.GetComponent<PlayerController>().playerIndex == 2 && charsIndex.charsSelectedIndex2 != 3)
@@ -74,11 +78,20 @@ public class PlayerHealth : MonoBehaviour
             }
         }
 
-        if(poison.isChaos == true)
+        if(poison.isChaos)
         {
             if(charsIndex.charsSelectedIndex != 6)
             {
                 Def = Def * 1.3f;
+            }
+        }
+
+        if (poison.bleed)
+        {
+            if ((gameObject.GetComponent<PlayerController>().playerIndex == 1 && charsIndex.charsSelectedIndex != 9)
+                || gameObject.GetComponent<PlayerController>().playerIndex == 2 && charsIndex.charsSelectedIndex2 != 9)
+            {
+                poisonApply(1.15f, 10f, 4f);
             }
         }
 

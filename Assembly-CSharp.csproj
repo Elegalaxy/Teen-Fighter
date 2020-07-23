@@ -104,9 +104,11 @@
     <Compile Include="Assets\Script\falloutZone.cs" />
     <Compile Include="Assets\Script\gernade.cs" />
     <Compile Include="Assets\Script\poison.cs" />
+    <Compile Include="Assets\Script\seeker.cs" />
     <Compile Include="Assets\Script\selectedChar.cs" />
     <Compile Include="Assets\Script\selectedLevel.cs" />
     <Compile Include="Assets\Script\soundPrefab.cs" />
+    <Compile Include="Assets\Script\stando.cs" />
     <Compile Include="Assets\Script\startAnim.cs" />
     <Compile Include="Assets\Script\startMapScript.cs" />
     <Compile Include="Assets\Script\takeWeapon.cs" />

@@ -9,6 +9,7 @@ TagManager:
   - WeaponBox
   - Ladder
   - Bgm
+  - Stando
   layers:
   - Default
   - TransparentFX

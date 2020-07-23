@@ -18,7 +18,6 @@ public class Ability : MonoBehaviour
     public GameObject weapon;
     
     public bool isRole = false;
-    public bool bleed = false;
 
     bool charging = false;
     bool statChecker = false;
@@ -151,7 +150,10 @@ public class Ability : MonoBehaviour
         }
         else if (index == 9)
         {
-
+            if (duration <= 0)
+            {
+                poison.bleed = false;
+            }
         }
         else if (index == 10)
         {
@@ -254,6 +256,7 @@ public class Ability : MonoBehaviour
         }
         else if (charInd == 9 && cd <= 0)
         {
+            poison.bleed = true;
             changeTime(15f, 8f);
         }
         else if (charInd == 10 && cd <= 0)
