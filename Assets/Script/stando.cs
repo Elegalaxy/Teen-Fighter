@@ -42,11 +42,19 @@ public class stando : MonoBehaviour
         if (!isGround)
         {
             idle = true;
+            gameObject.GetComponent<seeker>().isEmptyLeft = false;
+            gameObject.GetComponent<seeker>().isEmptyRight = false;
+            //gameObject.GetComponent<seeker>().distanceDetectLeft.position = transform.position + gameObject.GetComponent<seeker>().orgLeft;
+            //gameObject.GetComponent<seeker>().distanceDetectRight.position = transform.position + gameObject.GetComponent<seeker>().orgRight;
         }
 
-        if (!idle) //walk
+        if (!idle && moveLeft) //walk
         {
             transform.Translate(Vector2.left * runSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(Vector2.right * runSpeed * Time.deltaTime);
         }
 
         if (gameObject.GetComponent<seeker>().findPosition(targetLocation) != null)
@@ -58,15 +66,15 @@ public class stando : MonoBehaviour
             {
                 if ((target.x - stando.x) > distanceBetween) //walk until reach the player
                 {
-                    transform.eulerAngles = new Vector3(0, -180, 0);
+                    gameObject.GetComponent<SpriteRenderer>().flipX = true;
                     idle = false;
-                    bool moveLeft = false;
+                    moveLeft = false;
                 }
                 else if ((target.x - stando.x) < -distanceBetween)
                 {
-                    transform.eulerAngles = new Vector3(0, 0, 0);
+                    gameObject.GetComponent<SpriteRenderer>().flipX = false;
                     idle = false;
-                    bool moveLeft = true;
+                    moveLeft = true;
                 }
                 else
                 {
@@ -78,16 +86,23 @@ public class stando : MonoBehaviour
                 if (gameObject.GetComponent<seeker>().findDistance(target) != null)
                 {
                     Vector2 distance = gameObject.GetComponent<seeker>().findDistance(target);
+
                     if (distance.x < transform.position.x)
                     {
-                        transform.eulerAngles = new Vector3(0, 0, 0);
+                        gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                        moveLeft = false;
                         idle = false;
                     }
                     else
                     {
-                        transform.eulerAngles = new Vector3(0, -180, 0);
+                        gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                        moveLeft = true;
                         idle = false;
                     }
+                }
+                else
+                {
+                    idle = true;
                 }
             }
         }

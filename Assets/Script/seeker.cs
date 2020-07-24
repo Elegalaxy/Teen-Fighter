@@ -11,8 +11,8 @@ public class seeker : MonoBehaviour
     float rayDistance;
     float edgeDistanceLeft;
     float edgeDistanceRight;
-    bool isEmptyLeft;
-    bool isEmptyRight;
+    public bool isEmptyLeft;
+    public bool isEmptyRight;
     bool startRay;
 
     Vector2 standoPosition;
@@ -20,16 +20,24 @@ public class seeker : MonoBehaviour
     Vector3 rayIncre;
     Vector2 rayLeftPoint;
     Vector2 rayRightPoint;
+    public Vector3 orgLeft;
+    public Vector3 orgRight;
 
     RaycastHit2D distanceRayLeft;
     RaycastHit2D distanceRayRight;
 
     private void Start()
     {
-        rayDistance = 1f;
-        rayIncre = new Vector3(1f, 0f, 0f);
+        rayDistance = 0.1f;
+        rayIncre = new Vector3(0.5f, 0f, 0f);
         isEmptyLeft = false;
         isEmptyRight = false;
+        orgLeft = distanceDetectLeft.position - transform.position;
+        orgRight = distanceDetectRight.position - transform.position;
+        Debug.Log(orgLeft);
+        Debug.Log(orgRight);
+        //distanceDetectLeft.position = transform.position + orgLeft;
+        //distanceDetectRight.position = transform.position + orgRight;
         startRay = false;
     }
 
@@ -39,7 +47,6 @@ public class seeker : MonoBehaviour
         {
             edgeDistanceLeft = 0f;
             edgeDistanceRight = 0f;
-
             //initialize raycast
             distanceRayLeft = Physics2D.Raycast(distanceDetectLeft.position, Vector2.down, rayDistance);
             distanceRayRight = Physics2D.Raycast(distanceDetectRight.position, Vector2.down, rayDistance);
@@ -51,10 +58,18 @@ public class seeker : MonoBehaviour
             {
                 distanceDetectLeft.position -= rayIncre;
             }
+            else
+            {
+                distanceDetectLeft.position = rayLeftPoint;
+            }
 
             if (!isEmptyRight)
             {
                 distanceDetectRight.position += rayIncre;
+            }
+            else
+            {
+                distanceDetectRight.position = rayRightPoint;
             }
 
             //checking edge position
@@ -70,7 +85,6 @@ public class seeker : MonoBehaviour
                 isEmptyRight = true;
                 rayRightPoint = distanceDetectRight.position;
                 //Debug.Log(rayRightPoint);
-
                 edgeDistanceRight = Vector2.Distance(transform.position, distanceDetectRight.position);
             }
             startRay = false;
@@ -125,5 +139,4 @@ public class seeker : MonoBehaviour
         }
         return distance;
     }
-
 }
