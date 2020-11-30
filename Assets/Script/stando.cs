@@ -44,8 +44,6 @@ public class stando : MonoBehaviour
             idle = true;
             gameObject.GetComponent<seeker>().isEmptyLeft = false;
             gameObject.GetComponent<seeker>().isEmptyRight = false;
-            //gameObject.GetComponent<seeker>().distanceDetectLeft.position = transform.position + gameObject.GetComponent<seeker>().orgLeft;
-            //gameObject.GetComponent<seeker>().distanceDetectRight.position = transform.position + gameObject.GetComponent<seeker>().orgRight;
         }
 
         if (!idle && moveLeft) //walk

@@ -28,12 +28,12 @@ public class seeker : MonoBehaviour
 
     private void Start()
     {
-        rayDistance = 0.1f;
-        rayIncre = new Vector3(0.5f, 0f, 0f);
+        rayDistance = 0.1f; //ray cast range
+        rayIncre = new Vector3(0.5f, 0,0);
         isEmptyLeft = false;
         isEmptyRight = false;
-        orgLeft = distanceDetectLeft.position - transform.position;
-        orgRight = distanceDetectRight.position - transform.position;
+        //orgLeft = distanceDetectLeft.position - transform.position;
+        //orgRight = distanceDetectRight.position - transform.position;
         Debug.Log(orgLeft);
         Debug.Log(orgRight);
         //distanceDetectLeft.position = transform.position + orgLeft;
@@ -47,47 +47,43 @@ public class seeker : MonoBehaviour
         {
             edgeDistanceLeft = 0f;
             edgeDistanceRight = 0f;
+
             //initialize raycast
             distanceRayLeft = Physics2D.Raycast(distanceDetectLeft.position, Vector2.down, rayDistance);
             distanceRayRight = Physics2D.Raycast(distanceDetectRight.position, Vector2.down, rayDistance);
             Debug.DrawRay(distanceDetectLeft.position, distanceRayLeft.collider.transform.position);
             Debug.DrawRay(distanceDetectRight.position, distanceRayRight.collider.transform.position, Color.red);
-            Debug.Log(distanceRayLeft.collider.tag);
+            //Debug.Log(distanceRayLeft.collider.tag);
+            
+            
             //move the raycast
             if (!isEmptyLeft)
             {
                 distanceDetectLeft.position -= rayIncre;
             }
-            else
-            {
-                distanceDetectLeft.position = rayLeftPoint;
-            }
 
             if (!isEmptyRight)
             {
                 distanceDetectRight.position += rayIncre;
-            }
-            else
-            {
-                distanceDetectRight.position = rayRightPoint;
-            }
+            }            
 
             //checking edge position
-            if (distanceRayLeft.collider.tag != "Player" && distanceRayLeft.collider.tag != "Ground" && distanceRayLeft.collider.tag != "Ladder")
+            if (distanceRayLeft.collider.tag != "Player" && distanceRayLeft.collider.tag != "Ground")// && distanceRayLeft.collider.tag != "Ladder")
             {
                 isEmptyLeft = true;
-                rayLeftPoint = distanceDetectLeft.position;
                 edgeDistanceLeft = Vector2.Distance(transform.position, distanceDetectLeft.position);
             }
 
-            if (distanceRayRight.collider.tag != "Player" && distanceRayRight.collider.tag != "Ground" && distanceRayRight.collider.tag != "Ladder")
+            if (distanceRayRight.collider.tag != "Player" && distanceRayRight.collider.tag != "Ground")// && distanceRayRight.collider.tag != "Ladder")
             {
                 isEmptyRight = true;
-                rayRightPoint = distanceDetectRight.position;
-                //Debug.Log(rayRightPoint);
                 edgeDistanceRight = Vector2.Distance(transform.position, distanceDetectRight.position);
             }
-            startRay = false;
+            
+
+            if(transform.position.x == rayRightPoint.x || transform.position.x == rayLeftPoint.x) startRay = true;
+            else startRay = false;
+            
         }
     }
 
