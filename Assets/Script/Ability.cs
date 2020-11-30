@@ -4,20 +4,33 @@ using UnityEngine;
 
 public class Ability : MonoBehaviour
 {
+    public Animator animator;
     public bool unableMove = false;
     public int index;
     public float cd = 0, duration = 0, chargeDuration = 0, damage = 0;
-    bool abilityStart = false, charging = false;
+
+    public int pointInd;
     public GameObject[] books;
     public GameObject booksPrefab;
-    public int pointInd;
     public GameObject bookSound;
     public bookPrefab booksDamage;
     public CdBar cdBar;
+    public GameObject weapon;
+    
+    public bool isRole = false;
+
+    bool charging = false;
+    bool statChecker = false;
 
     private void Start()
     {
         poison.isPoisoned = false;
+        poison.isChaos = false;
+        poison.dmgAmplify = 1;
+
+        cd = 0;
+        duration = 0;
+
     }
     private void Update()
     {
@@ -41,13 +54,17 @@ public class Ability : MonoBehaviour
             if (duration > 0)
             {
                 unableMove = true;
+                gameObject.GetComponent<Weapon>().atkEnable = false;
+                weapon.SetActive(false);
             }
             else if (duration <= 0)
             {
+                animator.SetBool("Ability", false);
                 unableMove = false;
+                gameObject.GetComponent<Weapon>().atkEnable = true;
+                weapon.SetActive(true);
                 gameObject.GetComponent<PlayerHealth>().Def = 1;
                 gameObject.GetComponent<PlayerHealth>().Regen(0f);
-                abilityStart = false;
             }
         }
         else if (index == 1)
@@ -60,11 +77,11 @@ public class Ability : MonoBehaviour
             }
             if (chargeDuration > 0)
             {
-                if(chargeDuration <= 0.5)
+                if (chargeDuration <= 0.5)
                 {
                     damage = 20;
                 }
-                else if(chargeDuration > 0.5 && chargeDuration <= 1)
+                else if (chargeDuration > 0.5 && chargeDuration <= 1)
                 {
                     damage = 40;
                 }
@@ -83,27 +100,34 @@ public class Ability : MonoBehaviour
         }
         else if (index == 2)
         {
-
+            if (duration <= 0 && statChecker)
+            {
+                isRole = false;
+                animator.SetBool("Ability", false);
+                gameObject.GetComponent<Weapon>().atkEnable = true;
+                weapon.SetActive(true);
+                changeStat(1f, 1.6f, 0.6f, true);
+            }
         }
         else if (index == 3)
         {
-            if(duration <= 0)
+            if (duration <= 0)
             {
                 poison.isPoisoned = false;
             }
         }
         else if (index == 4)
         {
-            if(duration <= 0)
+            if (duration <= 0 && statChecker)
             {
-                changeStat(1, 1, 1);
+                changeStat(1.3f, 0.7f, 0.6f, true);
             }
         }
         else if (index == 5)
         {
-            if (duration <= 0)
+            if (duration <= 0 && statChecker)
             {
-                changeStat(1, 1, 1);
+                changeStat(1.4f, 1.6f, 1.4f, true);
             }
         }
         else if (index == 6)
@@ -119,15 +143,24 @@ public class Ability : MonoBehaviour
         }
         else if (index == 8)
         {
-
+            if (duration <= 0 && statChecker)
+            {
+                changeStat(1f, 1f, 0.01f, true);
+            }
         }
         else if (index == 9)
         {
-
+            if (duration <= 0)
+            {
+                poison.bleed = false;
+            }
         }
         else if (index == 10)
         {
-
+            if (duration <= 0 && statChecker)
+            {
+                changeStat(1.3f, 1.3f, 1f, true);
+            }
         }
         else if (index == 11)
         {
@@ -140,18 +173,22 @@ public class Ability : MonoBehaviour
         index = charInd;
         if (charInd == 0)
         {
-            PlayerHealth health = gameObject.GetComponent<PlayerHealth>();
-            if (abilityStart == true)
+            if (duration != 0)
             {
                 duration = 0;
             }
-            if (cd <= 0 && health.Health != health.maxHealth)
+
+            if (cd <= 0)
             {
-                changeTime(20f, 9f);
-                index = charInd;
-                gameObject.GetComponent<PlayerHealth>().Def *= 0.2f;
-                gameObject.GetComponent<PlayerHealth>().Regen(15, 1.5f, duration);
-                abilityStart = true;
+                PlayerHealth health = gameObject.GetComponent<PlayerHealth>();
+                if (health.Health != health.maxHealth)
+                {
+                    animator.SetBool("Ability", true);
+                    changeTime(20f, 9f);
+                    index = charInd;
+                    gameObject.GetComponent<PlayerHealth>().Def *= 0.2f;
+                    gameObject.GetComponent<PlayerHealth>().Regen(15, 1.5f, duration, false);
+                }
             }
         }
         else if (charInd == 1 && cd <= 0)
@@ -167,49 +204,70 @@ public class Ability : MonoBehaviour
             changeTime(15f, 1.5f);
             charging = true;
         }
-        else if (charInd == 2)
+        else if (charInd == 2 && cd <= 0)
         {
-
+            if (isRole)
+            {
+                isRole = false;
+                animator.SetBool("Ability", false);
+                changeStat(1f, 1.6f, 0.6f, true);
+                gameObject.GetComponent<Weapon>().atkEnable = true;
+                weapon.SetActive(true);
+                duration = 0;
+            }
+            else
+            {
+                isRole = true;
+                animator.SetBool("Ability", true);
+                gameObject.GetComponent<Weapon>().atkEnable = false;
+                weapon.SetActive(false);
+                changeTime(15f, 7f);
+                changeStat(1f, 1.6f, 0.6f, false);
+            }
         }
-        else if (charInd == 3)
+        else if (charInd == 3 && cd <= 0)
         {
             poison.isPoisoned = true;
             changeTime(15f, 5f);
         }
-        else if (charInd == 4)
+        else if (charInd == 4 && cd <= 0)
         {
             changeTime(15f, 5f);
-            changeStat(1.3f, 0.7f, 0.6f);
+            changeStat(1.3f, 0.7f, 0.6f, false);
         }
-        else if (charInd == 5)
+        else if (charInd == 5 && cd <= 0)
         {
             changeTime(15f, 5f);
-            changeStat(1.4f, 1.6f, 1.4f);
+            changeStat(1.4f, 1.6f, 1.4f, false);
         }
-        else if (charInd == 6)
+        else if (charInd == 6 && cd <= 0)
         {
             changeTime(15f, 6f);
             poison.isChaos = true;
         }
-        else if (charInd == 7)
+        else if (charInd == 7 && cd <= 0)
         {
-
+            changeTime(15f, 7f);
         }
-        else if (charInd == 8)
+        else if (charInd == 8 && cd <= 0)
         {
-
+            changeTime(15f, 3f);
+            changeStat(1f, 1f, 0.01f, false);
         }
-        else if (charInd == 9)
+        else if (charInd == 9 && cd <= 0)
         {
-
+            poison.bleed = true;
+            changeTime(15f, 8f);
         }
-        else if (charInd == 10)
+        else if (charInd == 10 && cd <= 0)
         {
-
+            changeTime(15f, 5f);
+            changeStat(1.3f, 1.3f, 1f, false);
+            gameObject.GetComponent<PlayerHealth>().Regen(30, 0f, 0f, true);
         }
-        else if (charInd == 11)
+        else if (charInd == 11 && cd <= 0)
         {
-
+            changeTime(15f, 0f);
         }
 
         if (cdBar.maxSlider == 100f)
@@ -221,7 +279,7 @@ public class Ability : MonoBehaviour
     void bookExplode(float damage)
     {
         booksDamage.setBookDamage(damage);
-        foreach(GameObject i in books)
+        foreach (GameObject i in books)
         {
             Instantiate(booksPrefab, i.GetComponent<Transform>().position, i.GetComponent<Transform>().rotation);
         }
@@ -234,18 +292,51 @@ public class Ability : MonoBehaviour
         duration = chDuration;
     }
 
-    public void changeStat(float dmg, float speed, float atkAmplifier)
+    public void changeStat(float dmg, float speed, float atkAmplifier, bool reset)
     {
-        poison.dmgAmplify *= dmg;
-        if(duration > 0)
+        if (reset)
         {
-            gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
+            poison.dmgAmplify /= dmg;
+            if (duration > 0)
+            {
+                gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
+            }
+            else
+            {
+                gameObject.GetComponent<PlayerController>().changeSpeed(speed, false);
+
+            }
+            gameObject.GetComponent<PlayerHealth>().Def /= atkAmplifier;
+            statChecker = false;
         }
         else
         {
-            gameObject.GetComponent<PlayerController>().changeSpeed(speed, false);
+            poison.dmgAmplify *= dmg;
+            if (duration > 0)
+            {
+                gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
+            }
+            else
+            {
+                gameObject.GetComponent<PlayerController>().changeSpeed(speed, false);
 
+            }
+            gameObject.GetComponent<PlayerHealth>().Def *= atkAmplifier;
+            statChecker = true;
         }
-        gameObject.GetComponent<PlayerHealth>().Def *= atkAmplifier;
+    }
+
+    private void OnTriggerEnter2D(Collider2D hitInfo)
+    {
+        if (isRole == true && index == 2)
+        {
+            PlayerHealth enemy = hitInfo.GetComponent<PlayerHealth>();
+            Rigidbody2D rb = hitInfo.GetComponent<Rigidbody2D>();
+            if (enemy != null && rb != null)
+            {
+                enemy.takeDamage(5);
+                rb.velocity = (-transform.right + transform.up) * 10;
+            }
+        }
     }
 }

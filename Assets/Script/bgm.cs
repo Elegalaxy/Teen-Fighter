@@ -10,5 +10,9 @@ public class bgm : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

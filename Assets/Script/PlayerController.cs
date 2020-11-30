@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
     public float runAmplifier = 1f;
     float climbSpeed = 4f;
     float jumpForce = 2f;
-    bool runEnable = false;
-    float runAmp = 1f;
 
     public int playerIndex = 1;
     float horizontalMove;
@@ -25,27 +23,20 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameObject spawnPoint;
     public GameObject healthBar;
+    float runAmpHandler = 1f;
 
     private void Start()
     {
         healthBar.GetComponent<HealthBar>().SetHealthBar();
     }
 
-    void Update()
+    private void Update()
     {
-        if (poison.isChaos && charsIndex.charsSelectedIndex != 6 && playerIndex == 1)
-        {
-            runAmplifier *= 0.8f;
-        }
-        else if (poison.isChaos && charsIndex.charsSelectedIndex2 != 6 && playerIndex == 2)
-        {
-            runAmplifier *= 0.8f;
-        }
-
-        runAmplifier *= runAmp;
-        Debug.Log(runAmplifier);
-
         Jump(); //detect jump and climb
+    }
+
+    void FixedUpdate()
+    {
         if (playerIndex == 1 && gameObject.GetComponent<Ability>().unableMove == false)
         {
             horizontalMove = Input.GetAxisRaw("Horizontal");
@@ -88,6 +79,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         animator.SetBool("IsWalking", isWalking);
+        runAmplifier *= runAmpHandler;
 
         if (playerIndex == 1 && gameObject.GetComponent<Ability>().unableMove == false)
         {
@@ -98,6 +90,14 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 movement = new Vector3(horizontalMove2, 0f, 0f);
             transform.position += movement * Time.fixedDeltaTime * runSpeed * runAmplifier;
+        }
+
+        if (poison.isChaos)
+        {
+            if ((charsIndex.charsSelectedIndex != 6 && playerIndex == 1) || (charsIndex.charsSelectedIndex2 != 6 && playerIndex == 2))
+            {
+                runAmpHandler = 0.8f;
+            }
         }
     }
 
@@ -222,13 +222,11 @@ public class PlayerController : MonoBehaviour
     {
         if (enable)
         {
-            runAmp *= speed;
-            runEnable = true;
+            runAmplifier *= speed;
         }
         else
         {
-            runAmp = 1;
-            runEnable = false;
+            runAmplifier /= speed;
         }
     }
 }

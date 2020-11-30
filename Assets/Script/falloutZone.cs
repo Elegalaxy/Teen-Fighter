@@ -9,7 +9,7 @@ public class falloutZone : MonoBehaviour
         PlayerHealth player = collision.GetComponent<PlayerHealth>();
         if (player != null)
         {
-            player.takeDamage(1000);
+            player.takeDamage(99999);
         }
 
         Bullet bullet = collision.GetComponent<Bullet>();

@@ -12,8 +12,6 @@ public class selectedChar : MonoBehaviour
     {
         int Char1 = Char_1.GetComponent<CharSelect>().CharactersIndex; //get index
         int Char2 = Char_2.GetComponent<CharSelect>().CharactersIndex;
-        Debug.Log(Char1);
-        Debug.Log(Char2);
         ind.setInd(Char1,Char2); //set index
     }
 }

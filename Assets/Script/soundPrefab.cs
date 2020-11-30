@@ -5,7 +5,7 @@ using UnityEngine;
 public class soundPrefab : MonoBehaviour
 {
     float soundTime;
-    void Start()
+    void Awake()
     {
         soundTime = 3f;
     }
