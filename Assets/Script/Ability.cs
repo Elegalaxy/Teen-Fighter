@@ -232,8 +232,8 @@ public class Ability : MonoBehaviour
         }
         else if (charInd == 4 && cd <= 0)
         {
+            //Ice attack
             changeTime(15f, 5f);
-            changeStat(1.3f, 0.7f, 0.6f, false);
         }
         else if (charInd == 5 && cd <= 0)
         {
