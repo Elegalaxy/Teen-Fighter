@@ -16,6 +16,7 @@ public class Ability : MonoBehaviour
     public bookPrefab booksDamage;
     public CdBar cdBar;
     public GameObject weapon;
+    public GameObject stando;
     
     public bool isRole = false;
 
@@ -247,6 +248,8 @@ public class Ability : MonoBehaviour
         }
         else if (charInd == 7 && cd <= 0)
         {
+            GameObject sd = Instantiate(stando);
+            sd.GetComponent<stando>().setIndex(GetComponent<PlayerController>().playerIndex);
             changeTime(15f, 7f);
         }
         else if (charInd == 8 && cd <= 0)

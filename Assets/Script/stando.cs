@@ -5,42 +5,74 @@ using UnityEngine.UIElements;
 
 public class stando : MonoBehaviour
 {
+    Animator animator;
     GameObject[] players;
-    GameObject currentPlayer;
+    Transform currentPlayer;
 
-
+    int index;
     bool isAttack = false;
-    int atkTime = 3;
-    float charge = 1.5f;
-    float atkDelay = 0.5f;
-    float damage = 10f;
+    int atkTime;
+    float charge;
+    float atkDelay;
+    float damage;
+    float atkRange;
 
     private void Start()
     {
+        atkTime = 3;
+        charge = 1.5f;
+        atkDelay = 0.5f;
+        damage = 10f;
+        atkRange = 5f;
+        animator = GetComponent<Animator>();
         isAttack = false;
-        players = GameObject.FindGameObjectsWithTag("Player"); //find all player in the map
+        players = GameObject.FindGameObjectsWithTag("Player"); //Find all player in the map
     }
 
     private void Update()
     {
+        Debug.DrawRay(transform.position, new Vector2(transform.position.x + atkRange, transform.position.y));
         if(atkTime > 0) {
-            if(players != null && currentPlayer == null)
-                currentPlayer = players[Random.Range(0, players.Length - 1)];
-            else if(!isAttack) {
+            if(players != null && currentPlayer == null) {
+                do { //guessing stuck on while
+                    currentPlayer = players[Random.Range(0, players.Length - 1)].transform; //Random player
+                } while(currentPlayer.gameObject.GetComponent<PlayerController>().playerIndex == index); //When target player is Kamboon, random again
+            }
+            
+            if(!isAttack) {
                 StartCoroutine("attack");
             }
+        } else {
+            Destroy(gameObject);
         }
     }
 
     IEnumerator attack() {
         isAttack = true;
+        yield return new WaitForSeconds(charge); //Charge for 1.5 sec
         StartCoroutine("startAttack");
-        yield return new WaitForSeconds(charge);
     }
 
     IEnumerator startAttack() {
         //Teleport and damage code
+        transform.position = currentPlayer.transform.position;
+        yield return new WaitForSeconds(atkDelay); //Tp and wait for 0.5 sec
+        Debug.Log("Attack" + atkTime); //Atk after 0.5 sec
+        dmg();
+        atkTime--;
+        isAttack = false;
+    }
 
-        yield return new WaitForSeconds(atkDelay);
+    void dmg() {
+        Collider2D result;
+        result = Physics2D.OverlapCircle(transform.position, atkRange, LayerMask.GetMask("Player"));
+        if(result != null && result.transform == currentPlayer) {
+            animator.SetTrigger("Attack");
+            result.GetComponent<PlayerHealth>().takeDamage(damage);
+        }
+    }
+
+    public void setIndex(int d) {
+        index = d;
     }
 }
