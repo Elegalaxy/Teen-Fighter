@@ -31,12 +31,16 @@ public class stando : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawRay(transform.position, new Vector2(transform.position.x + atkRange, transform.position.y));
+        //Debug.DrawRay(transform.position, new Vector2(transform.position.x + atkRange, transform.position.y));
         if(atkTime > 0) {
             if(players != null && currentPlayer == null) {
-                do { //guessing stuck on while
-                    currentPlayer = players[Random.Range(0, players.Length - 1)].transform; //Random player
-                } while(currentPlayer.gameObject.GetComponent<PlayerController>().playerIndex == index); //When target player is Kamboon, random again
+                int temp = players.Length - 1;
+                currentPlayer = players[temp].transform; //Select player
+                while(currentPlayer.gameObject.GetComponent<PlayerController>().playerIndex == index) { //guessing stuck on while
+                    temp--;
+                    if(temp < 0) break;
+                    currentPlayer = players[temp].transform; //Select player
+                }//When target player is Kamboon, random again
             }
             
             if(!isAttack) {
@@ -57,16 +61,15 @@ public class stando : MonoBehaviour
         //Teleport and damage code
         transform.position = currentPlayer.transform.position;
         yield return new WaitForSeconds(atkDelay); //Tp and wait for 0.5 sec
-        Debug.Log("Attack" + atkTime); //Atk after 0.5 sec
-        dmg();
+        dmg(); //Attack after 0.5 sec
         atkTime--;
         isAttack = false;
     }
 
     void dmg() {
-        Collider2D result;
-        result = Physics2D.OverlapCircle(transform.position, atkRange, LayerMask.GetMask("Player"));
-        if(result != null && result.transform == currentPlayer) {
+        Collider2D result; //Collider
+        result = Physics2D.OverlapCircle(transform.position, atkRange, LayerMask.GetMask("Player")); //Get every player inside this radius
+        if(result != null && result.transform == currentPlayer && result.GetComponent<PlayerController>().playerIndex != index) {
             animator.SetTrigger("Attack");
             result.GetComponent<PlayerHealth>().takeDamage(damage);
         }
