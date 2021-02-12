@@ -17,6 +17,9 @@ public class Ability : MonoBehaviour
     public CdBar cdBar;
     public GameObject weapon;
     public GameObject stando;
+
+    public GameObject iceSpike;
+    public Transform icePoint;
     
     public bool isRole = false;
 
@@ -233,8 +236,10 @@ public class Ability : MonoBehaviour
         }
         else if (charInd == 4 && cd <= 0)
         {
-            //Ice attack
             changeTime(15f, 5f);
+            unableMove = true;
+            StartCoroutine("iceAbility");
+            unableMove = false;
         }
         else if (charInd == 5 && cd <= 0)
         {
@@ -340,6 +345,14 @@ public class Ability : MonoBehaviour
                 enemy.takeDamage(5);
                 rb.velocity = (-transform.right + transform.up) * 10;
             }
+        }
+    }
+
+    IEnumerator iceAbility() {
+        //Ice attack
+        for(int i = 0; i < 3; i++) {
+            Instantiate(iceSpike, icePoint.position, icePoint.rotation);
+            yield return new WaitForSeconds(2);
         }
     }
 }
