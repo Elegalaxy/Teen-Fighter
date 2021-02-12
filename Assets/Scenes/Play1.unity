@@ -663,6 +663,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32439222}
   m_CullTransparentMesh: 0
+--- !u!1 &33163379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 33163380}
+  m_Layer: 6
+  m_Name: Ice point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &33163380
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33163379}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.17, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 407399338}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &57841874
 GameObject:
   m_ObjectHideFlags: 0
@@ -2540,6 +2570,7 @@ Transform:
   - {fileID: 1198583892}
   - {fileID: 641514922}
   - {fileID: 237959814}
+  - {fileID: 33163380}
   m_Father: {fileID: 469541582}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2728,6 +2759,9 @@ MonoBehaviour:
   cdBar: {fileID: 23582963}
   weapon: {fileID: 641514921}
   stando: {fileID: 8250642702953981366, guid: ae1a893a8ef9c604cbe41ab0869e9300, type: 3}
+  iceSpike: {fileID: 2559025040190467789, guid: 06ff9aa7347e7be47857206374ba044b,
+    type: 3}
+  icePoint: {fileID: 33163380}
   isRole: 0
 --- !u!114 &407399348
 MonoBehaviour:
@@ -8242,6 +8276,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1668002061}
   m_CullTransparentMesh: 0
+--- !u!1 &1693539225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1693539226}
+  m_Layer: 6
+  m_Name: Ice point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1693539226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693539225}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.17, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1942814358}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1724292237
 GameObject:
   m_ObjectHideFlags: 0
@@ -10003,6 +10067,7 @@ Transform:
   - {fileID: 2017398975}
   - {fileID: 1310220100}
   - {fileID: 1135564007}
+  - {fileID: 1693539226}
   m_Father: {fileID: 469541582}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10125,6 +10190,9 @@ MonoBehaviour:
   cdBar: {fileID: 151920635}
   weapon: {fileID: 1310220099}
   stando: {fileID: 8250642702953981366, guid: ae1a893a8ef9c604cbe41ab0869e9300, type: 3}
+  iceSpike: {fileID: 2559025040190467789, guid: 06ff9aa7347e7be47857206374ba044b,
+    type: 3}
+  icePoint: {fileID: 1693539226}
   isRole: 0
 --- !u!114 &1942814364
 MonoBehaviour:

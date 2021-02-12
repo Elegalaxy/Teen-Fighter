@@ -105,6 +105,7 @@
     <Compile Include="Assets\Script\selectedChar.cs" />
     <Compile Include="Assets\EffectExamples\Shared\Scripts\GunAim.cs" />
     <Compile Include="Assets\Script\charsIndex.cs" />
+    <Compile Include="Assets\Script\iceSpike.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
