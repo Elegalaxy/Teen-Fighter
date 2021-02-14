@@ -13,19 +13,20 @@ public class falloutZone : MonoBehaviour
         }
 
         Bullet bullet = collision.GetComponent<Bullet>();
+        iceSpike spike = collision.GetComponent<iceSpike>();
         gernade Gernade = collision.GetComponent<gernade>();
         books Books = collision.GetComponent<books>();
-        if(bullet != null)
-        {
+        
+        if(bullet != null) {
             bullet.destory();
         }
-        else if (Gernade != null)
-        {
+        else if (Gernade != null){
             Gernade.destroyG();
         }
-        else if(Books != null)
-        {
+        else if(Books != null){
             Books.destory();
+        } else if(spike != null) {
+            spike.destroy();
         }
     }
 }
