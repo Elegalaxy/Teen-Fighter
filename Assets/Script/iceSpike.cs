@@ -9,17 +9,21 @@ public class iceSpike : MonoBehaviour
 
     void Start()
     {
-        gameObject.GetComponent<Rigidbody2D>().AddForce(transform.forward * speed, ForceMode2D.Impulse);
+        GetComponent<Rigidbody2D>().velocity = transform.right * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.tag == "Ground") {
-            //Destroy(gameObject);
+            destroy();
         }
 
         if(collision.GetComponent<PlayerHealth>() != null) {
             PlayerHealth health = collision.GetComponent<PlayerHealth>();
             health.takeDamage(damage);
         }
+    }
+
+    public void destroy() {
+        Destroy(gameObject);
     }
 }
