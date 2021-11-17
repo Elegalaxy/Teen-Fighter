@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     //vars
     float runSpeed = 5.5f;
-    public float runAmplifier = 1f;
+    float runAmplifier = 1f;
     float climbSpeed = 4f;
     float jumpForce = 2f;
 
@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameObject spawnPoint;
     public GameObject healthBar;
-    float runAmpHandler = 1f;
 
     private void Start()
     {
@@ -79,7 +78,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         animator.SetBool("IsWalking", isWalking);
-        runAmplifier *= runAmpHandler;
+        //runAmplifier *= runAmpHandler;
 
         if (playerIndex == 1 && gameObject.GetComponent<Ability>().unableMove == false)
         {
@@ -96,7 +95,7 @@ public class PlayerController : MonoBehaviour
         {
             if ((charsIndex.charsSelectedIndex != 6 && playerIndex == 1) || (charsIndex.charsSelectedIndex2 != 6 && playerIndex == 2))
             {
-                runAmpHandler = 0.8f;
+                runAmplifier /= 0.8f;
             }
         }
     }
@@ -220,7 +219,10 @@ public class PlayerController : MonoBehaviour
 
     public void changeSpeed(float speed, bool enable)
     {
-        if (enable)
+        Debug.Log(runAmplifier);
+        Debug.Log(speed);
+
+        if(enable)
         {
             runAmplifier *= speed;
         }
@@ -228,5 +230,10 @@ public class PlayerController : MonoBehaviour
         {
             runAmplifier /= speed;
         }
+
+    }
+
+    public void resetSpeed() {
+        runAmplifier = 1;
     }
 }

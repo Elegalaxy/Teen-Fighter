@@ -6,9 +6,9 @@ public class Bullet : MonoBehaviour
 {
     public Rigidbody2D rb;
     public GameObject ImpactObject;
-    public float speed = 15f;
-    public float bulletDamage = 10f;
-    public float dmgAmplifier = 1f;
+    float speed = 40f;
+    float bulletDamage = 10f;
+    float dmgAmplifier = 1f;
 
     // Start is called before the first frame update
     void Start()

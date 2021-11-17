@@ -10,7 +10,6 @@ public class CharDes : MonoBehaviour
     {
         int desIndex = CharSelect.GetComponent<CharSelect>().CharactersIndex; //get current index
         TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
-        text.SetText(CharSelect.GetComponent<CharSelect>().CharactersAbilityDes[desIndex]); //set descriptions
+        text.SetText(CharSelect.GetComponent<CharSelect>().getDesc(desIndex)); //set descriptions
     }
-
 }

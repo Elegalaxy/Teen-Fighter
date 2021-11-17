@@ -139,6 +139,7 @@ public class Ability : MonoBehaviour
             if (duration <= 0)
             {
                 poison.isChaos = false;
+                poison.chaosPlayer[gameObject.getComponent<PlayerController>()] = false;
             }
         }
         else if (index == 7)
@@ -250,6 +251,7 @@ public class Ability : MonoBehaviour
         {
             changeTime(15f, 6f);
             poison.isChaos = true;
+            poison.chaosPlayer = ;
         }
         else if (charInd == 7 && cd <= 0)
         {
@@ -302,33 +304,22 @@ public class Ability : MonoBehaviour
 
     public void changeStat(float dmg, float speed, float atkAmplifier, bool reset)
     {
+
         if (reset)
         {
             poison.dmgAmplify /= dmg;
-            if (duration > 0)
-            {
-                gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
-            }
-            else
-            {
-                gameObject.GetComponent<PlayerController>().changeSpeed(speed, false);
+            gameObject.GetComponent<PlayerController>().changeSpeed(speed, !reset);
+            Debug.Log("reset");
 
-            }
             gameObject.GetComponent<PlayerHealth>().Def /= atkAmplifier;
             statChecker = false;
         }
         else
         {
             poison.dmgAmplify *= dmg;
-            if (duration > 0)
-            {
-                gameObject.GetComponent<PlayerController>().changeSpeed(speed, true);
-            }
-            else
-            {
-                gameObject.GetComponent<PlayerController>().changeSpeed(speed, false);
+            gameObject.GetComponent<PlayerController>().changeSpeed(speed, !reset);
+            Debug.Log("no reset");
 
-            }
             gameObject.GetComponent<PlayerHealth>().Def *= atkAmplifier;
             statChecker = true;
         }

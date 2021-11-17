@@ -50,7 +50,7 @@ public class PlayerHealth : MonoBehaviour
         {
             if (gameObject.GetComponent<PlayerController>() != null)
             {
-                gameObject.GetComponent<PlayerController>().runAmplifier = 1;
+                //gameObject.GetComponent<PlayerController>().resetSpeed();
 
             }
         }
@@ -137,7 +137,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void poisonApply(float slow, float dmg, float time)
     {
-        gameObject.GetComponent<PlayerController>().runAmplifier *= slow;
+        gameObject.GetComponent<PlayerController>().changeSpeed(slow, false);
         poiDmg = dmg;
         poisonTime = time;
     }

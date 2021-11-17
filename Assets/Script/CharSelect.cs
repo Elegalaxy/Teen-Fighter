@@ -8,7 +8,7 @@ public class CharSelect : MonoBehaviour
 {
     public Animator animator;
     string[] CharactersName = {"Zk","Jw","Dowson","Burger","Jinyi","Zhide","Hanyi","Kamboon","Yk","Youji","Xuan","Zp" };
-    public string[] CharactersAbilityDes = {
+    string[] CharactersAbilityDes = {
         "When activated Zk will be unable to move for 9 seconds, during which he gain 80% Defence and regenerate 15hp for every 1.5 seconds. ‘Sleeping Time’ can be can cancelled manually.", 
         "When activated Jw will be charging his power for 0.5 seconds ~ 1.5 seconds, when charging ‘The Power of Books’ Jw is unable to move, the longer he charges his power the higher damage it will dealt. When release he will explode with books around him, dealing20/40/60 damage for everyone around him.", 
         "When activated Dowson will curl up, gaining 60% movement speed and 40% Defence but unable to attack and jump. When he collides with an enemy he will deal 15 damage to the enemy. ‘It’s Time to Roll!’ can be cancelled manually.", 
@@ -20,14 +20,21 @@ public class CharSelect : MonoBehaviour
         "When activated Yk will avoid incoming damage for 3 seconds.", 
         "When activated Youji will be equipped with his knife, gaining 30% Strength and inflict ‘Bleeding’ effect when attacking an enemy. When an enemy has been attacked, the enemy will gain 15% Movement Speed but -10hp for every 1 seconds. The ‘Bleeding’ effect will last for 4 seconds.", 
         "When activated Xuan will eat a strawberry, which he will gain 30% Movement Speed, 30% Strength and regenerate 30hp.",
-        "When activated Zp will call out an alpaca that will charge out from either side of the map. Every enemy the alpaca collides with will be dealt 20 damage." };
+        "When activated Zp will call out an alpaca that will charge out from either side of the map. Every enemy the alpaca collides with will be dealt 20 damage." 
+    };
+
     public int CharactersIndex = 0;
 
-    void Update()
+    void Start()
     {
+        setName();
+    }
+
+    void setName() {
         TextMeshProUGUI text = GetComponent<TextMeshProUGUI>(); //show character name
         text.SetText(CharactersName[CharactersIndex]);
     }
+
     public void nextButton()
     {
         animator.SetTrigger("Next"); //trigger next animation and index
@@ -39,6 +46,8 @@ public class CharSelect : MonoBehaviour
         {
             CharactersIndex = 0;
         }
+
+        setName();
     }
 
     public void previousButton()
@@ -52,5 +61,11 @@ public class CharSelect : MonoBehaviour
         {
             CharactersIndex = 11;
         }
+
+        setName();
+    }
+
+    public string getDesc(int ind) {
+        return CharactersAbilityDes[ind];
     }
 }
