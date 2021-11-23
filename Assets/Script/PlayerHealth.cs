@@ -39,7 +39,7 @@ public class PlayerHealth : MonoBehaviour
                 healthBar.GetComponent<HealthBar>().SetHealthBar();
             }
         }
-        //Debug.Log(poisonTime);
+
         if (poisonTime > 0)
         {
             poisonTime -= Time.deltaTime;
@@ -50,22 +50,18 @@ public class PlayerHealth : MonoBehaviour
         {
             if (gameObject.GetComponent<PlayerController>() != null)
             {
-                //gameObject.GetComponent<PlayerController>().resetSpeed();
+                gameObject.GetComponent<PlayerController>().resetSpeed();
 
-            }
-        }
-
-        if (poison.isChaos)
-        {
-            if ((charsIndex.charsSelectedIndex != 6 && gameObject.GetComponent<PlayerController>().playerIndex == 1) || (charsIndex.charsSelectedIndex2 != 6 && gameObject.GetComponent<PlayerController>().playerIndex == 2))
-            {
-                defHandler = 1.3f;
             }
         }
     }
 
     public void takeDamage(float damage)
     {
+        if(poison.isChaos && !poison.chaosStarter[GetComponent<PlayerController>().playerIndex]) {
+            defHandler *= 1.3f;
+        }
+
         Def *= defHandler;
         Health -= damage * Def;
 
@@ -75,14 +71,6 @@ public class PlayerHealth : MonoBehaviour
                 || gameObject.GetComponent<PlayerController>().playerIndex == 2 && charsIndex.charsSelectedIndex2 != 3)
             {
                 poisonApply(0.8f, 5f, 3f);
-            }
-        }
-
-        if(poison.isChaos)
-        {
-            if(charsIndex.charsSelectedIndex != 6)
-            {
-                Def = Def * 1.3f;
             }
         }
 

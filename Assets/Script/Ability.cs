@@ -138,8 +138,8 @@ public class Ability : MonoBehaviour
         {
             if (duration <= 0)
             {
+                poison.chaosStarter[GetComponent<PlayerController>().playerIndex] = false;
                 poison.isChaos = false;
-                poison.chaosPlayer[gameObject.getComponent<PlayerController>()] = false;
             }
         }
         else if (index == 7)
@@ -250,8 +250,8 @@ public class Ability : MonoBehaviour
         else if (charInd == 6 && cd <= 0)
         {
             changeTime(15f, 6f);
+            poison.chaosStarter[GetComponent<PlayerController>().playerIndex] = true;
             poison.isChaos = true;
-            poison.chaosPlayer = ;
         }
         else if (charInd == 7 && cd <= 0)
         {
@@ -309,7 +309,6 @@ public class Ability : MonoBehaviour
         {
             poison.dmgAmplify /= dmg;
             gameObject.GetComponent<PlayerController>().changeSpeed(speed, !reset);
-            Debug.Log("reset");
 
             gameObject.GetComponent<PlayerHealth>().Def /= atkAmplifier;
             statChecker = false;
@@ -318,7 +317,6 @@ public class Ability : MonoBehaviour
         {
             poison.dmgAmplify *= dmg;
             gameObject.GetComponent<PlayerController>().changeSpeed(speed, !reset);
-            Debug.Log("no reset");
 
             gameObject.GetComponent<PlayerHealth>().Def *= atkAmplifier;
             statChecker = true;

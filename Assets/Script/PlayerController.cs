@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         healthBar.GetComponent<HealthBar>().SetHealthBar();
+        if(!poison.chaosStarter.ContainsKey(playerIndex))
+            poison.chaosStarter.Add(playerIndex, false);
     }
 
     private void Update()
@@ -78,9 +80,12 @@ public class PlayerController : MonoBehaviour
             }
         }
         animator.SetBool("IsWalking", isWalking);
-        //runAmplifier *= runAmpHandler;
 
-        if (playerIndex == 1 && gameObject.GetComponent<Ability>().unableMove == false)
+        if(poison.isChaos && !poison.chaosStarter[playerIndex]) {
+            runAmplifier *= 0.8f;
+        }
+
+        if(playerIndex == 1 && gameObject.GetComponent<Ability>().unableMove == false)
         {
             Vector3 movement = new Vector3(horizontalMove, 0f, 0f); //basic movement
             transform.position += movement * Time.fixedDeltaTime * runSpeed * runAmplifier;
@@ -91,13 +96,6 @@ public class PlayerController : MonoBehaviour
             transform.position += movement * Time.fixedDeltaTime * runSpeed * runAmplifier;
         }
 
-        if (poison.isChaos)
-        {
-            if ((charsIndex.charsSelectedIndex != 6 && playerIndex == 1) || (charsIndex.charsSelectedIndex2 != 6 && playerIndex == 2))
-            {
-                runAmplifier /= 0.8f;
-            }
-        }
     }
 
     void Jump()
@@ -219,9 +217,6 @@ public class PlayerController : MonoBehaviour
 
     public void changeSpeed(float speed, bool enable)
     {
-        Debug.Log(runAmplifier);
-        Debug.Log(speed);
-
         if(enable)
         {
             runAmplifier *= speed;

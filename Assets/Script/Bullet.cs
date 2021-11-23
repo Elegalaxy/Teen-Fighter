@@ -14,7 +14,6 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb.velocity = transform.right * speed;
-        dmgAmplifier = poison.dmgAmplify;
     }
 
     void OnTriggerEnter2D(Collider2D hitInfo)
@@ -22,6 +21,7 @@ public class Bullet : MonoBehaviour
         PlayerHealth enemy = hitInfo.GetComponent<PlayerHealth>();
         if (enemy != null)
         {
+            dmgAmplifier = poison.dmgAmplify;
             enemy.takeDamage(bulletDamage*dmgAmplifier);
             Destroy(gameObject);
         }
